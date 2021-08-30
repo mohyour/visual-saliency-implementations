@@ -5,7 +5,7 @@ from torch.optim import Adam
 from torch.backends import cudnn
 from nldf import build_model, weights_init
 from loss import Loss
-from tools.visual import Viz_visdom
+# from tools.visual import Viz_visdom
 
 
 class Solver(object):
@@ -17,11 +17,11 @@ class Solver(object):
         self.mean = torch.Tensor([123.68, 116.779, 103.939]).view(3, 1, 1) / 255
         self.beta = 0.3
         self.device = torch.device('cpu')
-        if self.config.cuda:
-            cudnn.benchmark = True
-            self.device = torch.device('cuda')
-        if config.visdom:
-            self.visual = Viz_visdom("NLDF", 1)
+        # if self.config.cuda:
+        #     cudnn.benchmark = True
+        #     self.device = torch.device('cuda')
+        # if config.visdom:
+            # self.visual = Viz_visdom("NLDF", 1)
         self.build_model()
         if self.config.pre_trained: self.net.load_state_dict(torch.load(self.config.pre_trained))
         if config.mode == 'train':
@@ -122,18 +122,18 @@ class Solver(object):
                 loss_epoch += loss.cpu().item()
                 print('epoch: [%d/%d], iter: [%d/%d], loss: [%.4f]' % (
                     epoch, self.config.epoch, i, iter_num, loss.cpu().item()))
-                if self.config.visdom:
-                    error = OrderedDict([('loss:', loss.cpu().item())])
-                    self.visual.plot_current_errors(epoch, i / iter_num, error)
+                # if self.config.visdom:
+                    # error = OrderedDict([('loss:', loss.cpu().item())])
+                    # self.visual.plot_current_errors(epoch, i / iter_num, error)
             if (epoch + 1) % self.config.epoch_show == 0:
                 print('epoch: [%d/%d], epoch_loss: [%.4f]' % (epoch, self.config.epoch, loss_epoch / iter_num),
                       file=self.log_output)
                 if self.config.visdom:
                     avg_err = OrderedDict([('avg_loss', loss_epoch / iter_num)])
-                    self.visual.plot_current_errors(epoch, i / iter_num, avg_err, 1)
+                    # self.visual.plot_current_errors(epoch, i / iter_num, avg_err, 1)
                     img = OrderedDict([('origin', self.mean + x.cpu()[0]), ('label', y.cpu()[0][0]),
                                        ('pred_label', y_pred.cpu()[0][0])])
-                    self.visual.plot_current_img(img)
+                    # self.visual.plot_current_img(img)
             if self.config.val and (epoch + 1) % self.config.epoch_val == 0:
                 mae = self.validation()
                 print('--- Best MAE: %.4f, Curr MAE: %.4f ---' % (best_mae, mae))

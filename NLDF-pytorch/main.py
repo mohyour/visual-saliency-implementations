@@ -38,14 +38,17 @@ if __name__ == '__main__':
     vgg_path = './weights/vgg16_feat.pth'
 
     # # -----ECSSD dataset-----
-    train_path = os.path.join(data_root, 'ECSSD/images')
+    image_path = os.path.join(data_root, 'ECSSD/images')
     label_path = os.path.join(data_root, 'ECSSD/ground_truth_mask')
     val_path = os.path.join(data_root, 'ECSSD/val_images')
     val_label = os.path.join(data_root, 'ECSSD/val_ground_truth_mask')
     test_path = os.path.join(data_root, 'ECSSD/test_images')
     test_label = os.path.join(data_root, 'ECSSD/test_ground_truth_mask')
+    train_file = None
+    valid_file = None
+    test_file = None
 
-    # # # -----MSRA-B dataset-----
+    # # -----MSRA-B dataset-----
     # image_path = os.path.join(data_root, 'MSRA-B/image')
     # label_path = os.path.join(data_root, 'MSRA-B/annotation')
     # train_file = os.path.join(data_root, 'MSRA-B/train_cvpr2013.txt')
@@ -64,13 +67,13 @@ if __name__ == '__main__':
 
     # Training settings
     parser.add_argument('--vgg', type=str, default=vgg_path)
-    parser.add_argument('--train_path', type=str, default=train_path)
+    parser.add_argument('--train_path', type=str, default=image_path)
     parser.add_argument('--label_path', type=str, default=label_path)
-    # parser.add_argument('--train_file', type=str, default=train_file)
+    parser.add_argument('--train_file', type=str, default=train_file)
     parser.add_argument('--epoch', type=int, default=500)
     parser.add_argument('--batch_size', type=int, default=1)
-    parser.add_argument('--val', type=bool, default=True)
-    parser.add_argument('--val_path', type=str, default=train_path)
+    parser.add_argument('--val', type=bool, default=False)
+    parser.add_argument('--val_path', type=str, default=image_path)
     parser.add_argument('--val_label', type=str, default=label_path)
     parser.add_argument('--val_file', type=str, default=valid_file)
     parser.add_argument('--num_thread', type=int, default=4)
