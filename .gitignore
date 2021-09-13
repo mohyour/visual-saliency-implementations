@@ -1,7 +1,12 @@
 venv
 .DS_Store
+.idea
 __pycache__
 data/
 weights/
 tools/
 salience_model/
+Model/
+dataset/
+Result/
+vgg16.npy
